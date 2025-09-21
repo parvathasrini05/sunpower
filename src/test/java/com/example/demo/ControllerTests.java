@@ -1,7 +1,6 @@
-package com.example.demo.controllers;
+package com.example.demo;
 
 import com.example.demo.models.*;
-import com.example.demo.services.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

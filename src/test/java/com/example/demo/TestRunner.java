@@ -1,4 +1,4 @@
-java
+
 package com.example.demo;
 
 import org.junit.platform.suite.api.SelectPackages;
