@@ -1,4 +1,4 @@
-package com.batteryshop.services;
+package com.example.demo.services;
 
 import com.batteryshop.models.User;
 import com.batteryshop.repositories.UserRepository;
