@@ -3,21 +3,31 @@ package com.example.demo.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+=======
+
+import org.springframework.stereotype.Repository;
+>>>>>>> Stashed changes
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.models.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.example.demo.repositories.UserRepository; // Missing import
+import org.springframework.security.crypto.password.PasswordEncoder; // Missing import
 
 @Service
 @RequiredArgsConstructor
+<<<<<<< Updated upstream
 @Transactional
 public class AuthService {
+=======
+public class AuthService<userRepository> {
+>>>>>>> Stashed changes
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public User register(User user) {
+<<<<<<< Updated upstream
         // Check if user already exists
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new IllegalArgumentException("User with this email already exists");
@@ -26,6 +36,9 @@ public class AuthService {
         // Hash password before saving
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
+=======
+        return com.example.demo.services.userRepository.save(user);
+>>>>>>> Stashed changes
     }
 
     public String login(String email, String password) {
