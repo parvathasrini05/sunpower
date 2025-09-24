@@ -1,10 +1,12 @@
 package com.example.demo.repositories;
 
-import com.example.demo.models.Product; // Correct package
+import com.example.demo.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.List;
+
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Product findByName(String name);
+    List<Product> findByBrand(String brand);
+    List<Product> findByModelContainingIgnoreCase(String model);
+    List<Product> findByStockLessThan(int stock);
 }
