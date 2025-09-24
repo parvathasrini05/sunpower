@@ -1,6 +1,8 @@
 package com.example.demo.services;
 
 import com.example.demo.models.Order;
+import com.example.demo.models.Product;
+import com.example.demo.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -25,7 +27,9 @@ public class OrderService {
 
     public List<Order> getOrdersByCustomerId(Long customerId) {
         customerService.getCustomerById(customerId); // Validate customer exists
-        return orderRepository.findByCustomerId(customerId);
+        return orderRepository.findAll().stream()
+            .filter(order -> order.getCustomer() != null && order.getCustomer().getId().equals(customerId))
+            .toList();
     }
 
     public Order createOrder(Order order) {
