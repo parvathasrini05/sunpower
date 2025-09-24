@@ -2,6 +2,7 @@ package com.example.demo.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,4 +25,7 @@ public class Product {
     private int stock;
 
     private int warrantyMonths; // warranty period in months
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ServiceRequest> serviceRequests;
 }

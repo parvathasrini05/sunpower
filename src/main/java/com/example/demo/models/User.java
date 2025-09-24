@@ -1,7 +1,5 @@
 package com.example.demo.models;
 
-import org.springframework.context.annotation.Role;
-
 import jakarta.persistence.*;
 import lombok.*;
 

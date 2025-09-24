@@ -12,13 +12,18 @@ import java.time.LocalDate;
 @Table(name = "service_requests")
 public class ServiceRequest {
 
+    public enum ServiceStatus {
+        PENDING, IN_PROGRESS, COMPLETED
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String description;
 
-    private String status; // PENDING, IN_PROGRESS, COMPLETED
+    @Enumerated(EnumType.STRING)
+    private ServiceStatus status; // PENDING, IN_PROGRESS, COMPLETED
 
     private LocalDate requestDate;
 
