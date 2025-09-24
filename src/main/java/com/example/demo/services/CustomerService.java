@@ -4,6 +4,7 @@ import com.example.demo.models.Customer;
 import com.example.demo.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -22,12 +23,16 @@ public class CustomerService {
     }
 
     public Customer getCustomerByEmail(String email) {
-        return customerRepository.findByEmail(email);
+        return customerRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Customer not found with email: " + email));
     }
 
     public Customer addCustomer(Customer customer) {
-        if (customerRepository.findByEmail(customer.getEmail()) != null) {
+        if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
             throw new RuntimeException("Customer with email already exists: " + customer.getEmail());
+        }
+        if (customerRepository.existsByPhone(customer.getPhone())) {
+            throw new RuntimeException("Customer with phone already exists: " + customer.getPhone());
         }
         return customerRepository.save(customer);
     }
