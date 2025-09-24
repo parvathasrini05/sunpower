@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
 
-import org.springframework.core.annotation.Order;
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -29,4 +27,7 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Order> orders;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<ServiceRequest> serviceRequests;
 }
