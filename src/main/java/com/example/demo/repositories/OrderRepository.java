@@ -1,14 +1,7 @@
 package com.example.demo.repositories;
 
-import com.example.demo.models.Order;  // Make sure this matches your entity
+import com.example.demo.models.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
-import java.util.List;
-
-@Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findByCustomer_Id(Long customerId); // if Order has Customer object
-    List<Order> findByOrderDateBetween(LocalDate startDate, LocalDate endDate);
 }

@@ -14,33 +14,18 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @GetMapping
+    @PostMapping("/add")
+    public Customer addCustomer(@RequestBody Customer customer) {
+        return customerService.saveCustomer(customer);
+    }
+
+    @GetMapping("/all")
     public List<Customer> getAllCustomers() {
         return customerService.getAllCustomers();
     }
 
-    @GetMapping("/{id}")
-    public Customer getCustomerById(@PathVariable Long id) {
-        return customerService.getCustomerById(id);
-    }
-
-    @GetMapping("/email/{email}")
-    public Customer getCustomerByEmail(@PathVariable String email) {
+    @GetMapping("/email")
+    public Customer getCustomerByEmail(@RequestParam String email) {
         return customerService.getCustomerByEmail(email);
-    }
-
-    @PostMapping
-    public Customer addCustomer(@RequestBody Customer customer) {
-        return customerService.addCustomer(customer);
-    }
-
-    @PutMapping("/{id}")
-    public Customer updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
-        return customerService.updateCustomer(id, customer);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteCustomer(@PathVariable Long id) {
-        customerService.deleteCustomer(id);
     }
 }

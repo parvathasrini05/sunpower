@@ -1,67 +1,31 @@
 package com.example.demo.services;
 
 import com.example.demo.models.Order;
-import com.example.demo.models.Product;
 import com.example.demo.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final CustomerService customerService;
-    private final ProductService productService;
+
+    public Order placeOrder(Order order) {
+        order.setOrderDate(LocalDate.now());
+        double total = order.getProducts().stream()
+                .mapToDouble(p -> p.getPrice())
+                .sum();
+        order.setTotalAmount(total);
+        return orderRepository.save(order);
+    }
 
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
-    }
-
-    public Order getOrderById(Long id) {
-        return orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
-    }
-
-    public List<Order> getOrdersByCustomerId(Long customerId) {
-        customerService.getCustomerById(customerId); // Validate customer exists
-        return orderRepository.findAll().stream()
-            .filter(order -> order.getCustomer() != null && order.getCustomer().getId().equals(customerId))
-            .toList();
-    }
-
-    public Order createOrder(Order order) {
-        // Validate customer exists
-        customerService.getCustomerById(order.getCustomer().getId());
-        
-        // Validate products exist and have sufficient stock
-        if (order.getProducts() != null) {
-            order.getProducts().forEach(product -> {
-                Product existingProduct = productService.getProductById(product.getId());
-                if (existingProduct.getStock() <= 0) {
-                    throw new RuntimeException("Product out of stock: " + existingProduct.getBrand() + " " + existingProduct.getModel());
-                }
-            });
-        }
-        
-        order.setOrderDate(LocalDate.now());
-        return orderRepository.save(order);
-    }
-
-    public Order updateOrder(Long id, Order orderDetails) {
-        Order order = getOrderById(id);
-        order.setTotalAmount(orderDetails.getTotalAmount());
-        return orderRepository.save(order);
-    }
-
-    public void deleteOrder(Long id) {
-        Order order = getOrderById(id);
-        orderRepository.delete(order);
-    }
-
-    public List<Order> getOrdersByDateRange(LocalDate startDate, LocalDate endDate) {
-        return orderRepository.findByOrderDateBetween(startDate, endDate);
     }
 }
